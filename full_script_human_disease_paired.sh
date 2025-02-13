@@ -45,7 +45,7 @@
 module purge
 module load fastqc/0.11.9
 
-fastqc ../00_raw_data/human_disease/hd_paired/*.fastq.gz -o ../01_raw_fastQC/human_disease/hd_paired/ -t 12
+fastqc ../00_raw_data/human_disease/hd_paired/*.fastq.gz -o ../01_raw_fastQC/human_disease/hd_paired/ -t 16
 #multiqc .
 
 
@@ -70,7 +70,7 @@ do
   seq_r2=${seq/_1\.fastq\.gz/_2_trimmed\.fastq\.gz}
   seq_r2u=${seq/_1\.fastq\.gz/_2_trim_unpaired\.fastq\.gz}
 
-  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar PE -threads 64 -phred33 $seq1 $seq2 $seq_r1 $seq_r1u $seq_r2 $seq_r2u ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:30
+  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar PE -threads 16 -phred33 $seq1 $seq2 $seq_r1 $seq_r1u $seq_r2 $seq_r2u ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:30
 
   done
 
@@ -80,7 +80,7 @@ do
 module purge
 module load fastqc/0.11.9
 
-fastqc ../02_trimmed_data/human_disease/hd_paired/*.fastq.gz -o ../03_trimmed_fastQC/human_disease/hd_paired/ -t 12
+fastqc ../02_trimmed_data/human_disease/hd_paired/*.fastq.gz -o ../03_trimmed_fastQC/human_disease/hd_paired/ -t 16
 
 
 ################################################################ MAPPING THE READS WITH HISAT2 AND OBTAINING TPM MATRIX WITH FEATURE COUNTS FROM SUBREAD PACKAGE #########################################################
@@ -108,7 +108,7 @@ hisat_report=${hisat_report1/02_trimmed_data/04_hisat2_output/}
 
 #Allignment
 
-hisat2 -p 12 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/ref_genome/human_ENS_index/human_ENS_index -1 $seq1 -2 $seq2 | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
+hisat2 -p 16 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/ref_genome/human_ENS_index/human_ENS_index -1 $seq1 -2 $seq2 | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
 
 done
 ###################### featureCOUNTS #############################
@@ -124,7 +124,7 @@ echo $sample
 sample1=${sample/_s.bam/.txt}
 sample_output=${sample1/04_hisat2_output/05_TPMs_matrix}
 
-featureCounts -p --countReadPairs -C -T 12 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Homo_sapiens.GRCh38.109_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
+featureCounts -p --countReadPairs -C -T 16 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Homo_sapiens.GRCh38.109_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
 #rm $sample
 
 done
