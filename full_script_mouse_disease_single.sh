@@ -66,7 +66,7 @@ do
 
   seq2=${seq1/00_raw_data/02_trimmed_data}
 
-  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 12 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
+  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 16 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
 
   done
 
@@ -103,7 +103,7 @@ for seq in ../02_trimmed_data/mouse_disease/single/*_trimmed.fastq.gz
   hisat_report=${hisat_report1/02_trimmed_data/04_hisat2_output}
 
   #Allignment
-  hisat2 -p 12 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/ref_genome/mouse_ENS_index/mouse_ENS_index -U $seq | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
+  hisat2 -p 16 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/ref_genome/mouse_ENS_index/mouse_ENS_index -U $seq | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
   rm $seq
 
   done
@@ -120,7 +120,7 @@ for sample in ../04_hisat2_output/mouse_disease/single/*_s.bam;
   sample1=${sample/_s.bam/.txt}
   sample_output=${sample1/04_hisat2_output/05_TPMs_matrix}
 
-  featureCounts -C -T 12 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Mouse_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
+  featureCounts -C -T 16 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Mouse_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
 
   rm $sample
 
