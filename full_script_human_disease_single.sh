@@ -65,7 +65,7 @@ do
 
   seq2=${seq1/00_raw_data/02_trimmed_data}
 
-  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 12 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/all_adapters.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
+  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 12 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
 
 done
 
