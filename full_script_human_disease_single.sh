@@ -45,7 +45,7 @@
 module purge
 module load fastqc/0.11.9
 
-fastqc ../00_raw_data/human_disease/hd_single/*.fastq.gz -o ../01_raw_fastQC/human_disease/hd_single/ -t 12
+fastqc ../00_raw_data/human_disease/hd_single/*.fastq.gz -o ../01_raw_fastQC/human_disease/hd_single/ -t 16
 #multiqc .
 
 
@@ -65,7 +65,7 @@ do
 
   seq2=${seq1/00_raw_data/02_trimmed_data}
 
-  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 12 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
+  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar SE -threads 16 -phred33 $seq $seq2 ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 MINLEN:36 SLIDINGWINDOW:4:20
 
 done
 
@@ -75,7 +75,7 @@ done
 module purge
 module load fastqc/0.11.9
 
-fastqc ../02_trimmed_data/human_disease/hd_single/*.fastq.gz -o ../03_trimmed_fastQC/human_disease/hd_single/ -t 12
+fastqc ../02_trimmed_data/human_disease/hd_single/*.fastq.gz -o ../03_trimmed_fastQC/human_disease/hd_single/ -t 16
 
 
 ################################################################ MAPPING THE READS WITH HISAT2 AND OBTAINING TPM MATRIX WITH FEATURE COUNTS FROM SUBREAD PACKAGE #########################################################
@@ -101,7 +101,7 @@ for seq1 in ../02_trimmed_data/human_disease/hd_single/*_1_trimmed.fastq.gz
    hisat_report=${hisat_report1/02_trimmed_data/04_hisat2_output}
 
     #Allignment
-    hisat2 -p 12 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/human_genome/mouse_ENS_index/mouse_ENS_index -U $seq | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
+    hisat2 -p 16 --summary $hisat_report --dta -x /mnt/home/users/bio_369_uma/jmperez/human_genome/mouse_ENS_index/mouse_ENS_index -U $seq | samtools view -F 0x4 -b - | samtools sort -o $hisat_output
    #rm $seq
 
   done
@@ -120,7 +120,7 @@ for sample in ../04_hisat2_output/human_disease/hd_single/*_s.bam;
     sample1=${sample/_s.bam/.txt}
     sample_output=${sample1/04_hisat2_output/05_TPMs_matrix}
 
-    featureCounts -C -T 12 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Homo_sapiens.GRCh38.109_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
+    featureCounts -C -T 16 -a /mnt/home/users/bio_369_uma/jmperez/ref_genome/Homo_sapiens.GRCh38.109_ENSEMBL.gtf -t exon -g gene_id -o $sample_output $sample
 
     rm $sample
 
