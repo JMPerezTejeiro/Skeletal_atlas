@@ -68,7 +68,7 @@ do
   seq_r2=${seq/_1\.fastq\.gz/_2_trimmed\.fastq\.gz}
   seq_r2u=${seq/_1\.fastq\.gz/_2_trim_unpaired\.fastq\.gz}
 
-  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar PE -threads 64 -phred33 $seq1 $seq2 $seq_r1 $seq_r1u $seq_r2 $seq_r2u ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/all_adapters.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:36
+  java -jar /mnt/home/soft/trimmomatic/programs/x86_64/0.39/trimmomatic-0.39.jar PE -threads 64 -phred33 $seq1 $seq2 $seq_r1 $seq_r1u $seq_r2 $seq_r2u ILLUMINACLIP:/mnt/home/users/bio_369_uma/jmperez/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:36
 
   done
 
