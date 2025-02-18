@@ -2,7 +2,8 @@
 Scripts used to analyze data for the skeletal atlas. From scRNA-seq, RNA-seq and Proteomics data.
 
 <b>RNA-seq</b>:<br>
-Once raw fastq files have been downloaded, we used one of the following scripts:<br>
+Once raw fastq files have been downloaded, we used one of the following scripts (note that these scripts are though to be launched in a cluster):<br>
+<br>
 •	full_script_human_disease_paired.sh<br>
 •	full_script_human_disease_single.sh<br>
 •	full_script_mouse_disease_paired.sh<br>
