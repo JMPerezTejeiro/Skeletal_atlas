@@ -7,7 +7,7 @@
 rm(list = ls())
 
 #Set workind directory:
-setwd("C:/Users/jmper/OneDrive/Escritorio/Atlas/sc_mouse")
+setwd("") #Set working directory
 
 #Load libraries
 library(Seurat)
